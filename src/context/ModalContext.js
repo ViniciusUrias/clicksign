@@ -11,10 +11,22 @@ const ModalProvider = ({ children }) => {
   const openModal = () =>
     setState({ visible: true });
   const closeModal = () => setState({ visible: false });
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const newContact = {
+      id: Math.floor(Math.random() * 10000),
+      contact,
+      email,
+      phone
+    }
+    addContact(newContact)
+    {closeModal}
+    ;
+  }
 
   return (
     <ModalContext.Provider
-      value={{ modalState, openModal, closeModal }}
+      value={{ modalState, openModal, closeModal, onSubmit }}
     >
       {children}
     </ModalContext.Provider>

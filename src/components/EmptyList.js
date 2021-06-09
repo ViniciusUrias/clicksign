@@ -50,10 +50,8 @@ const CreateContactButton = styled.button`
 `;
 
 function EmptyList() {
-  const { contacts } = useContext(GlobalContext);
 
   const [isOpen, setIsOpen] = useState(false);
-  console.log(contacts)
   function toggleModal(e) {
     setIsOpen(!isOpen);
   }

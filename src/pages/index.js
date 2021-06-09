@@ -7,12 +7,19 @@ import { useContext, useEffect } from 'react';
 function App(){
   const { contacts } = useContext(GlobalContext);
 
+  
 
+
+  useEffect(() => {
+    
+  })
+    
+  
 return (
   <>
 
     <Layout>
-      {contacts.length > 0 ?( <List/>) :  (<EmptyList/>)
+      {contacts.length > 0 ?( <List key={contacts[0]}/>) :  (<EmptyList/>)
 } 
 
      

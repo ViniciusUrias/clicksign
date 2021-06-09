@@ -10,7 +10,7 @@ const Reducer = (state, action) => {
     case 'ADD_CONTACT':
       return {
         ...state,
-        contacts: [action.payload, ...state.contacts]
+        contacts: [action.payload, ...state.contacts],
       }
     case 'EDIT_CONTACT':
       const updateContact = action.payload;

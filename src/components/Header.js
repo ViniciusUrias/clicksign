@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
-import Modal from './Modal'
+import { GlobalContext } from "../context/GlobalState";
+import Modal from "./Modal";
 
 const HeaderNav = styled.header`
   width: 100%;
@@ -61,19 +62,26 @@ const Button = styled.button`
 `;
 
 function Header() {
+  const { contacts } = useContext(GlobalContext);
+  
   const [isOpen, setIsOpen] = useState(false);
   function toggleModal(e) {
     setIsOpen(!isOpen);
   }
+
+
   return (
     <HeaderNav>
-      <Modal toggleModal={toggleModal} isOpen={isOpen} />
+      
       <Logo src="ic-logo.svg"></Logo>
-      <Button onClick={toggleModal}>
+      {contacts.length > 0 ? ( <Button onClick={toggleModal}>
       <PlusIcon src="ic-plus.svg" />
       <span>Criar Contato</span>
-      </Button>
+      </Button>): null}
+     
+      <Modal  toggleModal={toggleModal}  isOpen={isOpen} />
       <Input placeholder="Buscar"></Input>
+    
     </HeaderNav>
   );
 }

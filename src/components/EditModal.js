@@ -7,7 +7,6 @@ const Divider = styled.div`
   width: 432px;
   height: 2px;
   border-bottom: 1px solid var(--cloudy-blue);
- 
 `;
 
 const ModalContent = styled.div`
@@ -16,13 +15,6 @@ const ModalContent = styled.div`
   flex-direction: column;
   align-content: center;
   line-height: 2rem;
-  div{
-  width: 110%;
-  margin-left: -20px;
-  margin-top: 15px;
-
-  }
-
   input {
     width: 384px;
     height: 32px;
@@ -90,43 +82,30 @@ border-radius: 16px;
 }
   ;`;
 
-export default function ModalComponent(props) {
-  const [contact, setContact] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-
-  const { addContact } = useContext(GlobalContext);
-
-
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const newContact = {
-      id: Math.floor(Math.random() * 10000),
-      contact,
-      email,
-      phone
+export default function EditModal(props) {
+    const { editContact, contacts } = useContext(GlobalContext);
+    const [selectedContact, setSelectedContact] = useState({
+      id: '',
+      contact: '',
+      email: '',
+      phone: ''
+    })
+    const currentContactId = 1;
+  
+    useEffect(() => {
+      const contactId = currentContactId;
+      const selectedContact = contacts.find(contact => contact.id === contactId);
+      setSelectedContact(selectedContact);
+    }, [currentContactId, contacts])
+  
+    const onChange = (e) => {
+      setSelectedContact({ ...selectedContact, [e.target.name]: e.target.value })
     }
-    
-    addContact(newContact)
-    setContact('')
-    setEmail('')
-    setPhone('')
-    {props.toggleModal}
-    ;
-  }
-
-  const onChange = (e) => {
-    setContact(e.target.value);
-  }
-
-  const onChangeE = (e) => {
-    setEmail(e.target.value);
-  }
-
-  const onChangeP = (e) => {
-    setPhone(e.target.value);
-  }
+  
+    const onSubmit = (e) => {
+      e.preventDefault();
+      editContact(selectedContact);
+    }
 
   return (
     <>
@@ -142,21 +121,20 @@ export default function ModalComponent(props) {
         <ModalContent>
           <form onSubmit={onSubmit}>
           <label>Nome</label>
-          <input type="text" value={contact} onChange={onChange} name="contact" ></input>
+          <input type="text" value={selectedContact.contact} onChange={onChange} name="contact" ></input>
           <label>Email</label>
-          <input type="text" value={email} onChange={onChangeE} name="email" ></input>
+          <input type="text" value={selectedContact.email} onChange={onChange} name="email" ></input>
           <label>Telefone</label>
-          <input type="text" value={phone} onChange={onChangeP} name="phone" ></input>
-          
-          <Divider  />
-        <ModalFooter>
-          <span onClick={props.toggleModal}>Cancelar</span>
+          <input type="text" value={selectedContact.phone} onChange={onChange} name="phone" ></input>
           <button type="submit" >Salvar</button>
-          
-        </ModalFooter>
           </form>
         </ModalContent>
-       
+        <Divider style={{ marginTop: 10 }} />
+        <ModalFooter>
+          <span onClick={props.toggleModal}>Cancelar</span>
+          
+          
+        </ModalFooter>
       </StyledModal>
     </>
   );

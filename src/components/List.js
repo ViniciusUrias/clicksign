@@ -1,6 +1,7 @@
-import { useContext, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useTable } from "react-table";
 import styled from "styled-components";
+import Modal from "styled-react-modal";
 import { GlobalContext } from "../context/GlobalState";
 const Oval = styled.div`
   width: 25px;
@@ -67,10 +68,35 @@ export const Styles = styled.div`
 `;
 
 function List() {
-  const { contacts } = useContext(GlobalContext);
-  console.log(contacts);
+  const { contacts, removeContact, editContact } = useContext(GlobalContext);
+  const [isOpen, setIsOpen] = useState(false);
+  function toggleModal(e) {
+    setIsOpen(!isOpen);
+  }
 
-  const data = useMemo(() => contacts, []);
+  //   function allStorage() {
+  //     let values = [],
+  //       keys = Object.keys(localStorage),
+  //       i = keys.length;
+
+  //       let newContacts= []
+
+  //     while (i--) {
+  //       for(let contact of localStorage){
+  //         contact.id = new Map([contact.id])
+  //         newContacts.push(contact)
+  //       values.push(JSON.parse(localStorage.getItem(keys[i])));
+  //       contacts.push(JSON.parse(localStorage.getItem(keys[i])));
+
+  //     }
+  //     console.log(newContacts)
+  //     return newContacts;
+  //   }
+  // }
+
+  const data = useMemo(() => contacts, [contacts]);
+
+  useEffect(() => {}, [contacts]);
 
   const columns = useMemo(
     () => [
@@ -101,8 +127,12 @@ function List() {
         id: "icons",
         Cell: () => (
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <img style={{ marginRight: 10 }} src="ic-edit.svg"></img>
+            <button onClick={editContact}>
+              <img style={{ marginRight: 10 }} src="ic-edit.svg"></img>
+            </button>
+            <button onClick={removeContact}>
             <img style={{ marginLeft: 10 }} src="ic-delete.svg"></img>
+            </button>
           </div>
         ),
       },
@@ -119,22 +149,25 @@ function List() {
     useTable({ columns, data });
 
   return (
-    <Styles>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
-            prepareRow(row);
-            return (
-              <>
+    <>
+    <Modal toggleModal={toggleModal} isOpen={isOpen} />
+      <Styles>
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
                 <tr {...row.getRowProps()}>
                   {row.cells.map((cell) => {
                     return (
@@ -142,12 +175,13 @@ function List() {
                     );
                   })}
                 </tr>
-              </>
-            );
-          })}
-        </tbody>
-      </table>
-    </Styles>
+              );
+            })}
+          </tbody>
+        </table>
+      </Styles>
+      
+    </>
   );
 }
 export default List;

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import styled from "styled-components";
+import Modal from './Modal'
 
 const HeaderNav = styled.header`
   width: 100%;
@@ -59,10 +61,15 @@ const Button = styled.button`
 `;
 
 function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  function toggleModal(e) {
+    setIsOpen(!isOpen);
+  }
   return (
     <HeaderNav>
+      <Modal toggleModal={toggleModal} isOpen={isOpen} />
       <Logo src="ic-logo.svg"></Logo>
-      <Button>
+      <Button onClick={toggleModal}>
       <PlusIcon src="ic-plus.svg" />
       <span>Criar Contato</span>
       </Button>

@@ -65,7 +65,7 @@ function EmptyList() {
         <PlusIcon src="ic-plus.svg" />
         <span>Criar Contato</span>
       </CreateContactButton>
-      <Modal toggleModal={toggleModal} isOpen={isOpen} />
+      <Modal toggleModal={toggleModal}  isOpen={isOpen} />
     </Container>
   );
 }

@@ -1,6 +1,5 @@
 import { useContext, useMemo } from "react";
 import { useTable } from "react-table";
-
 import styled from "styled-components";
 import { GlobalContext } from "../context/GlobalState";
 const Oval = styled.div`
@@ -12,8 +11,8 @@ const Oval = styled.div`
   border-radius: 50%;
   display: inline-flex;
   justify-content: space-around;
-  span{
-      align-self: center;
+  span {
+    align-self: center;
   }
 `;
 export const Styles = styled.div`
@@ -31,15 +30,13 @@ export const Styles = styled.div`
       :hover {
         background-color: var(--very-light-pink);
       }
-     td{
-          border-right: 0;
-          border-left: 0;
-     }
+      td {
+        border-right: 0;
+        border-left: 0;
+      }
       :last-child {
         td {
-           
           border-bottom: 0;
-         
         }
       }
     }
@@ -52,11 +49,12 @@ export const Styles = styled.div`
       background-color: var(--white-two);
       font-size: 15px;
       color: var(--bluey-grey);
-      :first-child{
-          width: 1% ;
+      :first-child {
+        width: 1%;
       }
       :last-child {
         border-right: none;
+        width: 0.0000000001%;
       }
     }
   }
@@ -68,47 +66,31 @@ export const Styles = styled.div`
   }
 `;
 
-
-const MOCK_DATA = [
-  {
-    contact: "vibe",
-    email: "vibe@vibe.com",
-    phone: 1233213213,
-  },
-  {
-    contact: "vibe1",
-    email: "vibe1@vibe.com",
-    phone: 1222222,
-  },
-];
 function List() {
   const { contacts } = useContext(GlobalContext);
-  console.log(contacts)
+  console.log(contacts);
 
   const data = useMemo(() => contacts, []);
 
   const columns = useMemo(
     () => [
-        {
-            Header: () => null,
-            id: 'avatar',
-            Cell: () => (
-                <Oval><span>V</span></Oval>
-            ),
-            
-            
-        },
+      {
+        Header: () => null,
+        id: "avatar",
+        Cell: () => (
+          <Oval>
+            <span>V</span>
+          </Oval>
+        ),
+      },
+
       {
         Header: "Contatos",
         accessor: "contact",
-        
-        
       },
       {
         Header: "E-mail",
         accessor: "email",
-        
-        
       },
       {
         Header: "Telefone",
@@ -116,15 +98,19 @@ function List() {
       },
       {
         Header: () => null,
-        id: 'icons', 
+        id: "icons",
         Cell: () => (
-         <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-         <img style={{marginRight: 10}} src="ic-edit.svg"></img>
-         <img style={{marginLeft: 10}} src="ic-delete.svg"></img>
-         </div>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <img style={{ marginRight: 10 }} src="ic-edit.svg"></img>
+            <img style={{ marginLeft: 10 }} src="ic-delete.svg"></img>
+          </div>
         ),
       },
-   
+      {
+        Header: () => null,
+        accessor: "id",
+        Cell: () => null,
+      },
     ],
     []
   );
@@ -148,27 +134,17 @@ function List() {
           {rows.map((row) => {
             prepareRow(row);
             return (
-                <>
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
-                  return (
-                   
-                      
-                    <td {...cell.getCellProps()}>{cell.render("Cell") }
-                    
-                    </td>
-
-                
-                    
-                  );
-                })}
-              </tr>
-              
+              <>
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    );
+                  })}
+                </tr>
               </>
             );
-            
           })}
-          
         </tbody>
       </table>
     </Styles>

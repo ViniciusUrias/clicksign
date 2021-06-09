@@ -97,7 +97,9 @@ export default function ModalComponent(props) {
       email,
       phone
     }
-    addContact(newContact);
+    addContact(newContact)
+    {props.toggleModal}
+    ;
   }
 
   const onChange = (e) => {
@@ -135,7 +137,6 @@ export default function ModalComponent(props) {
         <Divider style={{ marginTop: 10 }} />
         <ModalFooter>
           <span onClick={props.toggleModal}>Cancelar</span>
-          
           
           
         </ModalFooter>

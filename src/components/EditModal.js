@@ -83,63 +83,51 @@ border-radius: 16px;
   ;`;
 
 export default function EditModal(props) {
-    const { editContact, contacts } = useContext(GlobalContext);
-    const [contact, setContact] = useState("");
-    const [email, setEmail] = useState("");
-    const [phone, setPhone] = useState("");
-    
-    const [selectedContact, setSelectedContact] = useState({
-      id: '',
-      contact,
-      email,
-      phone
-    })
+  const { editContact, contacts } = useContext(GlobalContext);
+  const [contact, setContact] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
-    let currentContactId = contacts.find(e =>{
-     return e.id
-    })
-       
-    
+  const [selectedContact, setSelectedContact] = useState({
+    id: "",
+    contact,
+    email,
+    phone,
+  });
 
-    // console.log('esse é o id:' + currentContactId.id)
+  let currentContactId = contacts.find((e) => {
+    return e.id;
+  });
 
-    // for(let c of contacts){
-      
-    //   console.log(c.id)
-    // }
-  
-    useEffect(() => {
-      const selectedContact = contacts.find(contact => contact.id == currentContactId);
-      console.log('esse é o contato selecionado: ' + selectedContact)
-      setSelectedContact({
-        id: currentContactId.id,
-        contact: contact,
-        email: email,
-        phone: phone
-      })
-    }, [contact, email, phone])
-  
-    // const onChange = (e) => {
-    //   setSelectedContact({ ...selectedContact, [e.target.name]: e.target.value })
-    // }
+  useEffect(() => {
+    const selectedContact = contacts.find(
+      (contact) => contact.id == currentContactId
+    );
+    console.log("esse é o contato selecionado: " + selectedContact);
+    setSelectedContact({
+      id: currentContactId.id,
+      contact: contact,
+      email: email,
+      phone: phone,
+    });
+  }, [contact, email, phone]);
 
-    const onChange = (e) => {
-      setContact(e.target.value);
-    }
-  
-    const onChangeE = (e) => {
-      setEmail(e.target.value);
-    }
-  
-    const onChangeP = (e) => {
-      setPhone(e.target.value);
-    }
-  
-  
-    const onSubmit = (e) => {
-      e.preventDefault();
-      editContact(selectedContact);
-    }
+  const onChange = (e) => {
+    setContact(e.target.value);
+  };
+
+  const onChangeE = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const onChangeP = (e) => {
+    setPhone(e.target.value);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    editContact(selectedContact);
+  };
 
   return (
     <>
@@ -147,35 +135,40 @@ export default function EditModal(props) {
         isOpen={props.isOpen}
         onBackgroundClick={props.toggleModal}
         onEscapeKeydown={props.toggleModal}
-        
-        
       >
         <p>Editar Contato</p>
         <Divider />
         <ModalContent>
           <form onSubmit={onSubmit}>
-          <label>Nome</label>
-          <input type="text" value={contact} onChange={onChange} name="contact" ></input>
-          <label>Email</label>
-          <input type="text" value={email} onChange={onChangeE} name="email" ></input>
-          <label>Telefone</label>
-          <input type="text" value={phone} onChange={onChangeP} name="phone" ></input>
-          <button type="submit" >Salvar</button>
+            <label>Nome</label>
+            <input
+              type="text"
+              value={contact}
+              onChange={onChange}
+              name="contact"
+            ></input>
+            <label>Email</label>
+            <input
+              type="text"
+              value={email}
+              onChange={onChangeE}
+              name="email"
+            ></input>
+            <label>Telefone</label>
+            <input
+              type="text"
+              value={phone}
+              onChange={onChangeP}
+              name="phone"
+            ></input>
+            <button type="submit">Salvar</button>
           </form>
         </ModalContent>
         <Divider style={{ marginTop: 10 }} />
         <ModalFooter>
           <span onClick={props.toggleModal}>Cancelar</span>
-          
-          
         </ModalFooter>
       </StyledModal>
     </>
   );
-}
-
-export async function getStaticProps(context) {
-  return {
-    props: {selectedContact: {}}, // will be passed to the page component as props
-  }
 }

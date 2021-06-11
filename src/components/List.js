@@ -76,32 +76,14 @@ function List() {
     setIsOpen(!isOpen);
   }
 
-  //   function allStorage() {
-  //     let values = [],
-  //       keys = Object.keys(localStorage),
-  //       i = keys.length;
-
-  //       let newContacts= []
-
-  //     while (i--) {
-  //       for(let contact of localStorage){
-  //         contact.id = new Map([contact.id])
-  //         newContacts.push(contact)
-  //       values.push(JSON.parse(localStorage.getItem(keys[i])));
-  //       contacts.push(JSON.parse(localStorage.getItem(keys[i])));
-
-  //     }
-  //     console.log(newContacts)
-  //     return newContacts;
-  //   }
-  // }
-
-  const mockData = [{
-    "id": 1,
-    "contact": 'vibe',
-    "email": 'vibe@urias',
-    "phone": '1929292'
-  }]
+  const mockData = [
+    {
+      id: 1,
+      contact: "vibe",
+      email: "vibe@urias",
+      phone: "1929292",
+    },
+  ];
   const data = useMemo(() => contacts, [contacts]);
 
   useEffect(() => {}, [contacts]);
@@ -139,7 +121,7 @@ function List() {
               <img style={{ marginRight: 10 }} src="ic-edit.svg"></img>
             </button>
             <button onClick={removeContact}>
-            <img style={{ marginLeft: 10 }} src="ic-delete.svg"></img>
+              <img style={{ marginLeft: 10 }} src="ic-delete.svg"></img>
             </button>
           </div>
         ),
@@ -156,35 +138,10 @@ function List() {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
-  function renderTableData() {
-    return contacts.map((c, index) => {
-       return (
-         <>
-          <tr key={c.contact}>
-            
-             <td>{c.contact}</td>
-             <td>{c.email}</td>
-             <td>{c.phone}</td>
-             
-          </tr>
-          <button onClick={editContact}></button>
-          </>
-       )
-    })
- }
-
-
   return (
     <>
-    <EditModal toggleModal={toggleModal} isOpen={isOpen} />
-    {/* <div>
-            <h1 id='title'>React Dynamic Table</h1>
-            <table id='students'>
-               <tbody>
-                  {renderTableData()}
-               </tbody>
-            </table>
-         </div> */}
+      <EditModal toggleModal={toggleModal} isOpen={isOpen} />
+
       <Styles>
         <table {...getTableProps()}>
           <thead>
@@ -214,7 +171,6 @@ function List() {
           </tbody>
         </table>
       </Styles>
-      
     </>
   );
 }

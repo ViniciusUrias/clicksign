@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { GlobalContext } from "../context/GlobalState";
 import { useContext, useEffect, useState } from "react";
-import Modal from './Modal'
+import Modal from "./Modal";
 
 const Divider = styled.div`
   width: 432px;
@@ -62,11 +62,10 @@ const ModalFooter = styled.footer`
   }
 `;
 
-
 export default function CreateModal() {
-  const [contact, setContact] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const [contact, setContact] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   function toggleModal(e) {
     setIsOpen(!isOpen);
@@ -74,63 +73,75 @@ export default function CreateModal() {
 
   const { addContact } = useContext(GlobalContext);
 
-
-
   const onSubmit = (e) => {
     e.preventDefault();
     const newContact = {
       id: Math.floor(Math.random() * 10000),
       contact,
       email,
-      phone
+      phone,
+    };
+
+    addContact(newContact);
+    setContact("");
+    setEmail("");
+    setPhone("");
+    {
+      toggleModal;
     }
-    
-    addContact(newContact)
-    setContact('')
-    setEmail('')
-    setPhone('')
-    {toggleModal}
-    ;
-  }
+  };
 
   const onChange = (e) => {
     setContact(e.target.value);
-  }
+  };
 
   const onChangeE = (e) => {
     setEmail(e.target.value);
-  }
+  };
 
   const onChangeP = (e) => {
     setPhone(e.target.value);
-  }
-
+  };
 
   return (
-    
-     <Modal  isOpen={isOpen}
-     onBackgroundClick={toggleModal}
-     onEscapeKeydown={toggleModal}>
-        <p>Criar novo contato</p>
-        <Divider />       
-        <ModalContent>
-          <form onSubmit={onSubmit}>
+    <Modal
+      isOpen={isOpen}
+      onBackgroundClick={toggleModal}
+      onEscapeKeydown={toggleModal}
+    >
+      <p>Criar novo contato</p>
+      <Divider />
+      <ModalContent>
+        <form onSubmit={onSubmit}>
           <label>Nome</label>
-          <input type="text" value={contact} onChange={onChange} name="contact" ></input>
+          <input
+            type="text"
+            value={contact}
+            onChange={onChange}
+            name="contact"
+          ></input>
           <label>Email</label>
-          <input type="text" value={email} onChange={onChangeE} name="email" ></input>
+          <input
+            type="text"
+            value={email}
+            onChange={onChangeE}
+            name="email"
+          ></input>
           <label>Telefone</label>
-          <input type="text" value={phone} onChange={onChangeP} name="phone" ></input>
-          
-          <Divider  />
-        <ModalFooter>
-          <span onClick={toggleModal}>Cancelar</span>
-          <button type="submit" >Salvar</button>
-          
-        </ModalFooter>
-          </form>
-        </ModalContent>
-        </Modal>
-    
+          <input
+            type="text"
+            value={phone}
+            onChange={onChangeP}
+            name="phone"
+          ></input>
+
+          <Divider />
+          <ModalFooter>
+            <span onClick={toggleModal}>Cancelar</span>
+            <button type="submit">Salvar</button>
+          </ModalFooter>
+        </form>
+      </ModalContent>
+    </Modal>
   );
 }

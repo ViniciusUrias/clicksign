@@ -8,7 +8,7 @@ function App(){
   const { contacts } = useContext(GlobalContext);
 
   
-
+console.log(contacts)
 
   useEffect(() => {
     
@@ -19,7 +19,7 @@ return (
   <>
 
     <Layout>
-      {contacts.length > 0 ?( <List key={contacts[0]}/>) :  (<EmptyList/>)
+      {contacts.length > 0 ?( <List key={contacts.map(contact=> contacts[contact])}/>) :  (<EmptyList/>)
 } 
 
      

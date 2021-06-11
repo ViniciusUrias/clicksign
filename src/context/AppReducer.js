@@ -12,19 +12,29 @@ const Reducer = (state, action) => {
         ...state,
         contacts: [action.payload, ...state.contacts],
       }
-    case 'EDIT_CONTACT':
+    case 'EDIT_CONTACT':{
       const updateContact = action.payload;
 
-      const updateContacts = state.contacts.map(contact => {
-        if (contact.id === updateContact.id) {
-          return updateContact;
+      const updatedContacts = state.contacts.map(c => {
+        if(c.id === updateContact.id){
+          return updateContact
         }
-        return contact;
+
+        return c;
       })
-      return {
+      return{
         ...state,
-        contacts: updateContacts
+        contacts: updatedContacts
       }
+      // const updateContacts = state.contacts.filter((contact => {
+      //   return contact.id === action.payload.id
+      // }))
+      // return {
+      //   ...state,
+      //   contacts: [ ...updateContacts, ...state.contacts]
+        
+      // }
+    }
 
     default:
       return state;

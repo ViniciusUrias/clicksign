@@ -84,23 +84,57 @@ border-radius: 16px;
 
 export default function EditModal(props) {
     const { editContact, contacts } = useContext(GlobalContext);
+    const [contact, setContact] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    
     const [selectedContact, setSelectedContact] = useState({
       id: '',
-      contact: '',
-      email: '',
-      phone: ''
+      contact,
+      email,
+      phone
     })
-    const currentContactId = 1;
+
+    let currentContactId = contacts.find(e =>{
+     return e.id
+    })
+       
+    
+
+    // console.log('esse é o id:' + currentContactId.id)
+
+    // for(let c of contacts){
+      
+    //   console.log(c.id)
+    // }
   
     useEffect(() => {
-      const contactId = currentContactId;
-      const selectedContact = contacts.find(contact => contact.id === contactId);
-      setSelectedContact(selectedContact);
-    }, [currentContactId, contacts])
+      const selectedContact = contacts.find(contact => contact.id == currentContactId);
+      console.log('esse é o contato selecionado: ' + selectedContact)
+      setSelectedContact({
+        id: currentContactId.id,
+        contact: contact,
+        email: email,
+        phone: phone
+      })
+    }, [contact, email, phone])
   
+    // const onChange = (e) => {
+    //   setSelectedContact({ ...selectedContact, [e.target.name]: e.target.value })
+    // }
+
     const onChange = (e) => {
-      setSelectedContact({ ...selectedContact, [e.target.name]: e.target.value })
+      setContact(e.target.value);
     }
+  
+    const onChangeE = (e) => {
+      setEmail(e.target.value);
+    }
+  
+    const onChangeP = (e) => {
+      setPhone(e.target.value);
+    }
+  
   
     const onSubmit = (e) => {
       e.preventDefault();
@@ -116,16 +150,16 @@ export default function EditModal(props) {
         
         
       >
-        <p>Criar novo contato</p>
+        <p>Editar Contato</p>
         <Divider />
         <ModalContent>
           <form onSubmit={onSubmit}>
           <label>Nome</label>
-          <input type="text" value={selectedContact.contact} onChange={onChange} name="contact" ></input>
+          <input type="text" value={contact} onChange={onChange} name="contact" ></input>
           <label>Email</label>
-          <input type="text" value={selectedContact.email} onChange={onChange} name="email" ></input>
+          <input type="text" value={email} onChange={onChangeE} name="email" ></input>
           <label>Telefone</label>
-          <input type="text" value={selectedContact.phone} onChange={onChange} name="phone" ></input>
+          <input type="text" value={phone} onChange={onChangeP} name="phone" ></input>
           <button type="submit" >Salvar</button>
           </form>
         </ModalContent>
@@ -138,4 +172,10 @@ export default function EditModal(props) {
       </StyledModal>
     </>
   );
+}
+
+export async function getStaticProps(context) {
+  return {
+    props: {selectedContact: {}}, // will be passed to the page component as props
+  }
 }

@@ -3,6 +3,8 @@ import { useTable } from "react-table";
 import styled from "styled-components";
 import Modal from "styled-react-modal";
 import { GlobalContext } from "../context/GlobalState";
+import { useModalContext } from "../context/ModalContext";
+import EditModal from "./EditModal";
 const Oval = styled.div`
   width: 25px;
   height: 25px;
@@ -94,6 +96,12 @@ function List() {
   //   }
   // }
 
+  const mockData = [{
+    "id": 1,
+    "contact": 'vibe',
+    "email": 'vibe@urias',
+    "phone": '1929292'
+  }]
   const data = useMemo(() => contacts, [contacts]);
 
   useEffect(() => {}, [contacts]);
@@ -127,7 +135,7 @@ function List() {
         id: "icons",
         Cell: () => (
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <button onClick={editContact}>
+            <button onClick={toggleModal}>
               <img style={{ marginRight: 10 }} src="ic-edit.svg"></img>
             </button>
             <button onClick={removeContact}>
@@ -148,9 +156,35 @@ function List() {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
+  function renderTableData() {
+    return contacts.map((c, index) => {
+       return (
+         <>
+          <tr key={c.contact}>
+            
+             <td>{c.contact}</td>
+             <td>{c.email}</td>
+             <td>{c.phone}</td>
+             
+          </tr>
+          <button onClick={editContact}></button>
+          </>
+       )
+    })
+ }
+
+
   return (
     <>
-    <Modal toggleModal={toggleModal} isOpen={isOpen} />
+    <EditModal toggleModal={toggleModal} isOpen={isOpen} />
+    {/* <div>
+            <h1 id='title'>React Dynamic Table</h1>
+            <table id='students'>
+               <tbody>
+                  {renderTableData()}
+               </tbody>
+            </table>
+         </div> */}
       <Styles>
         <table {...getTableProps()}>
           <thead>

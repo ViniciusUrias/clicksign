@@ -4,7 +4,8 @@ import AppReducer from './AppReducer';
 
 // Initial State
 const initialState = {
-  contacts: []
+  contacts: [
+]
 }
 
 // Create Context
@@ -39,6 +40,7 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider value={{
       contacts: state.contacts,
+
       removeContact,
       addContact,
       editContact
